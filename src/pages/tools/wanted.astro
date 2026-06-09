@@ -1,0 +1,39 @@
+---
+import { getCollection } from 'astro:content';
+import { url } from '../../lib/url';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ShopTag from '../../components/ShopTag.astro';
+
+const tools = (await getCollection('tools', ({ data }) => data.status === 'wanted'))
+  .sort((a, b) => (b.data.priority ?? 0) - (a.data.priority ?? 0));
+
+const wishlistTotal = tools.reduce((sum, t) => sum + (t.data.estimatedPrice ?? 0), 0);
+
+const fields = (t: (typeof tools)[number]) => {
+  const f = [{ label: 'Category', value: t.data.category }];
+  if (t.data.priority) f.push({ label: 'Priority', value: '★'.repeat(t.data.priority) });
+  if (t.data.estimatedPrice) f.push({ label: 'Est.', value: `$${t.data.estimatedPrice.toLocaleString('en-US')}` });
+  return f;
+};
+---
+
+<BaseLayout title="Wanted Tools" description="The tool wishlist, sorted by priority.">
+  <p class="eyebrow">Inventory / wanted</p>
+  <h1>Wanted Tools</h1>
+  <p>Sorted by priority — five stars means it's next.</p>
+  <div class="stat-strip">
+    <div class="stat">
+      <span class="num">{tools.length}</span>
+      <span class="label">On the wishlist</span>
+    </div>
+    <div class="stat">
+      <span class="num">${wishlistTotal.toLocaleString('en-US')}</span>
+      <span class="label">Estimated total</span>
+    </div>
+  </div>
+  <ul class="tag-grid">
+    {tools.map((t) => (
+      <ShopTag href={url(`/tools/${t.id}`)} name={t.data.name} status={t.data.status} fields={fields(t)} />
+    ))}
+  </ul>
+</BaseLayout>

@@ -1,0 +1,96 @@
+---
+import { getCollection, render } from 'astro:content';
+import { url } from '../../lib/url';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const tools = await getCollection('tools');
+  return tools.map((tool) => ({
+    params: { slug: tool.id },
+    props: { tool },
+  }));
+}
+
+const { tool } = Astro.props;
+const { Content } = await render(tool);
+const d = tool.data;
+
+const allProjects = await getCollection('projects');
+const projectLinks = d.relatedProjects
+  .map((id) => allProjects.find((p) => p.id === id))
+  .filter((p) => p !== undefined);
+
+const rows: Array<[string, string]> = [];
+rows.push(['Status', d.status]);
+rows.push(['Category', d.category]);
+if (d.brand) rows.push(['Brand', d.brand]);
+if (d.model) rows.push(['Model', d.model]);
+if (d.condition) rows.push(['Condition', d.condition]);
+if (d.priority) rows.push(['Priority', '★'.repeat(d.priority)]);
+if (d.pricePaid) rows.push(['Price paid', `$${d.pricePaid.toLocaleString('en-US')}`]);
+if (d.estimatedPrice) rows.push(['Estimated price', `$${d.estimatedPrice.toLocaleString('en-US')}`]);
+if (d.purchaseDate) rows.push(['Purchased', d.purchaseDate.toISOString().slice(0, 10)]);
+if (d.purchaseSource) rows.push(['Source', d.purchaseSource]);
+if (d.location) rows.push(['Stored', d.location]);
+---
+
+<BaseLayout title={d.name} description={`Tool record: ${d.name}`}>
+  <article class="prose">
+    <p class="eyebrow">Tool record</p>
+    <h1>{d.name}</h1>
+    <span class={`badge badge--${d.status}`}>{d.status}</span>
+
+    <dl class="spec-sheet">
+      {rows.map(([label, value]) => (
+        <>
+          <dt>{label}</dt>
+          <dd>{value}</dd>
+        </>
+      ))}
+    </dl>
+
+    <h2>Notes</h2>
+    <Content />
+
+    {projectLinks.length > 0 && (
+      <>
+        <h2>Used in projects</h2>
+        <ul>
+          {projectLinks.map((p) => (
+            <li><a href={url(`/projects/${p.id}`)}>{p.data.title}</a></li>
+          ))}
+        </ul>
+      </>
+    )}
+
+    {d.tags.length > 0 && (
+      <ul class="pill-row">
+        {d.tags.map((t) => <li class="pill">{t}</li>)}
+      </ul>
+    )}
+  </article>
+</BaseLayout>
+
+<style>
+  .spec-sheet {
+    margin: 1.5rem 0;
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.3rem 1.5rem;
+    max-width: 32rem;
+    background: #fffdf6;
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    padding: 1rem 1.25rem;
+  }
+
+  .spec-sheet dt {
+    color: var(--graphite);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .spec-sheet dd { margin: 0; }
+</style>

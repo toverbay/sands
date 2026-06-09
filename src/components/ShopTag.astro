@@ -1,0 +1,29 @@
+---
+// Static "shop inventory tag" card for tools and supplies.
+interface Field {
+  label: string;
+  value: string;
+}
+
+interface Props {
+  href: string;
+  name: string;
+  status: string;
+  fields: Field[];
+}
+
+const { href, name, status, fields } = Astro.props;
+---
+
+<li class="shop-tag">
+  <h3><a href={href}>{name}</a></h3>
+  <span class={`badge badge--${status}`}>{status}</span>
+  <dl>
+    {fields.map((f) => (
+      <>
+        <dt>{f.label}</dt>
+        <dd>{f.value}</dd>
+      </>
+    ))}
+  </dl>
+</li>

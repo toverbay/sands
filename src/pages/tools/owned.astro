@@ -1,0 +1,39 @@
+---
+import { getCollection } from 'astro:content';
+import { url } from '../../lib/url';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ShopTag from '../../components/ShopTag.astro';
+
+const tools = (await getCollection('tools', ({ data }) => data.status === 'owned'))
+  .sort((a, b) => a.data.name.localeCompare(b.data.name));
+
+const totalValue = tools.reduce((sum, t) => sum + (t.data.pricePaid ?? 0), 0);
+
+const fields = (t: (typeof tools)[number]) => {
+  const f = [{ label: 'Category', value: t.data.category }];
+  if (t.data.brand) f.push({ label: 'Brand', value: `${t.data.brand}${t.data.model ? ' ' + t.data.model : ''}` });
+  if (t.data.pricePaid) f.push({ label: 'Paid', value: `$${t.data.pricePaid.toLocaleString('en-US')}` });
+  if (t.data.location) f.push({ label: 'Stored', value: t.data.location });
+  return f;
+};
+---
+
+<BaseLayout title="Owned Tools" description="Tools currently in the shop.">
+  <p class="eyebrow">Inventory / owned</p>
+  <h1>Owned Tools</h1>
+  <div class="stat-strip">
+    <div class="stat">
+      <span class="num">{tools.length}</span>
+      <span class="label">Tools in the shop</span>
+    </div>
+    <div class="stat">
+      <span class="num">${totalValue.toLocaleString('en-US')}</span>
+      <span class="label">Total paid</span>
+    </div>
+  </div>
+  <ul class="tag-grid">
+    {tools.map((t) => (
+      <ShopTag href={url(`/tools/${t.id}`)} name={t.data.name} status={t.data.status} fields={fields(t)} />
+    ))}
+  </ul>
+</BaseLayout>

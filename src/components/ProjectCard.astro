@@ -1,0 +1,33 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { url } from '../lib/url';
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+}
+
+const { project } = Astro.props;
+const { title, status, summary, startedDate } = project.data;
+---
+
+<li class="shop-tag">
+  <h3><a href={url(`/projects/${project.id}`)}>{title}</a></h3>
+  <span class={`badge badge--${status}`}>{status}</span>
+  <dl>
+    {startedDate && (
+      <>
+        <dt>Started</dt>
+        <dd>{startedDate.toISOString().slice(0, 10)}</dd>
+      </>
+    )}
+  </dl>
+  {summary && <p class="summary">{summary}</p>}
+</li>
+
+<style>
+  .summary {
+    margin: 0.5rem 0 0;
+    font-size: 0.88rem;
+    color: var(--walnut-soft);
+  }
+</style>

@@ -1,0 +1,61 @@
+---
+import { getCollection } from 'astro:content';
+import { url } from '../lib/url';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import BlogPostCard from '../components/BlogPostCard.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
+
+const projects = (await getCollection('projects'))
+  .filter((p) => ['planned', 'in-progress'].includes(p.data.status))
+  .sort((a, b) => (b.data.startedDate?.valueOf() ?? 0) - (a.data.startedDate?.valueOf() ?? 0));
+
+const tools = await getCollection('tools');
+const ownedCount = tools.filter((t) => t.data.status === 'owned').length;
+const wanted = tools.filter((t) => t.data.status === 'wanted');
+const wishlistTotal = wanted.reduce((sum, t) => sum + (t.data.estimatedPrice ?? 0), 0);
+---
+
+<BaseLayout>
+  <p class="eyebrow">A shop log</p>
+  <h1>Projects, posts, and the&nbsp;inventory wall.</h1>
+  <p>
+    Notes from the workshop: what's being built, what it was built with, and
+    what's still on the wishlist. The repository is the database; this site is
+    the published snapshot.
+  </p>
+
+  <div class="stat-strip">
+    <div class="stat">
+      <span class="num">{ownedCount}</span>
+      <span class="label">Tools owned</span>
+    </div>
+    <div class="stat">
+      <span class="num">{wanted.length}</span>
+      <span class="label">Tools wanted</span>
+    </div>
+    <div class="stat">
+      <span class="num">${wishlistTotal.toLocaleString('en-US')}</span>
+      <span class="label">Wishlist total</span>
+    </div>
+  </div>
+
+  <hr class="kerf" />
+
+  <h2>On the bench</h2>
+  <ul class="tag-grid">
+    {projects.map((project) => <ProjectCard project={project} />)}
+  </ul>
+  <p><a href={url('/projects')}>All projects →</a></p>
+
+  <hr class="kerf" />
+
+  <h2>Latest from the blog</h2>
+  <ul class="post-list">
+    {posts.map((post) => <BlogPostCard post={post} />)}
+  </ul>
+  <p><a href={url('/blog')}>All posts →</a></p>
+</BaseLayout>

@@ -1,0 +1,28 @@
+---
+import { getCollection } from 'astro:content';
+import { url } from '../../lib/url';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SupplyTable from '../../components/SupplyTable.vue';
+
+const entries = await getCollection('supplies');
+const supplies = entries.map((s) => ({ id: s.id, ...s.data }));
+
+const lowOrOut = entries.filter((s) => ['low', 'out'].includes(s.data.status));
+---
+
+<BaseLayout title="Supplies" description="Consumables inventory: finishes, glue, abrasives, hardware, and lumber.">
+  <p class="eyebrow">Inventory</p>
+  <h1>Supplies</h1>
+  {lowOrOut.length > 0 && (
+    <p>
+      <strong>Reorder soon:</strong>{' '}
+      {lowOrOut.map((s, i) => (
+        <>
+          {i > 0 && ', '}
+          <a href={url(`/supplies/${s.id}`)}>{s.data.name}</a>
+        </>
+      ))}
+    </p>
+  )}
+  <SupplyTable client:load supplies={supplies} />
+</BaseLayout>
