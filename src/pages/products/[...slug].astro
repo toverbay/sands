@@ -1,0 +1,30 @@
+---
+import { getCollection, render } from "astro:content"
+import BaseLayout from "../../layouts/BaseLayout.astro"
+import { url } from "../../lib/url"
+
+export async function getStaticPaths() {
+  const products = await getCollection("products")
+  return products.map((product) => ({ params: { slug: product.id }, props: { product } }))
+}
+const { product } = Astro.props
+const { Content } = await render(product)
+const { title, category, maker, summary, priceLabel, available, customizable } = product.data
+---
+<BaseLayout title={title} description={summary}>
+  <article class="product-detail">
+    <div class:list={["product-detail__visual", "product-placeholder--" + category]}><span>{category === "wood" ? "Woodcraft" : "Fiber Arts"}</span></div>
+    <div class="product-detail__summary">
+      <p class="eyebrow">{category} · by {maker}</p>
+      <h1>{title}</h1>
+      <p>{summary}</p>
+      <div class="product-facts">
+        {priceLabel && <span>{priceLabel}</span>}
+        <span>{available ? "Currently offered" : "Not currently offered"}</span>
+        {customizable && <span>Customization available</span>}
+      </div>
+      <a href={url("/products")}>← Back to all products</a>
+    </div>
+    <div class="product-detail__body prose"><Content /></div>
+  </article>
+</BaseLayout>

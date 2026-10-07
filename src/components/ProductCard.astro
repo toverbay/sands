@@ -1,0 +1,21 @@
+---
+import type { CollectionEntry } from "astro:content"
+import { url } from "../lib/url"
+interface Props { product: CollectionEntry<"products"> }
+const { product } = Astro.props
+const { title, category, maker, summary, priceLabel, customizable } = product.data
+---
+<article class="product-card">
+  <a class:list={["product-card__image", "product-placeholder--" + category]} href={url("/products/" + product.id)}>
+    <span>{category === "wood" ? "Woodcraft" : "Fiber Arts"}</span>
+  </a>
+  <div class="product-card__body">
+    <div class="product-card__meta"><span>{category}</span><span>by {maker}</span></div>
+    <h3><a href={url("/products/" + product.id)}>{title}</a></h3>
+    <p>{summary}</p>
+    <div class="product-card__footer">
+      {priceLabel && <span>{priceLabel}</span>}
+      {customizable && <span class="custom-pill">Customizable</span>}
+    </div>
+  </div>
+</article>

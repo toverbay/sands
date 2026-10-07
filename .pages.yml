@@ -1,0 +1,43 @@
+media:
+  - name: product_images
+    label: Product images
+    input: public/images/products
+    output: /images/products
+    rename: safe
+    categories: [image]
+
+content:
+  - name: products
+    label: Products
+    type: collection
+    path: src/content/products
+    format: yaml-frontmatter
+    filename: "{primary}.md"
+    view:
+      primary: title
+      fields: [title, category, maker, available, featured]
+      sort: [sortOrder, title]
+    fields:
+      - { name: title, label: Product name, type: string, required: true }
+      - name: category
+        label: Category
+        type: select
+        required: true
+        options:
+          values:
+            - { name: wood, label: Wood }
+            - { name: fiber, label: Fiber }
+      - name: maker
+        label: Maker
+        type: select
+        options: { values: [Tim, Melody, Both] }
+      - { name: summary, label: Short description, type: text, required: true }
+      - { name: priceLabel, label: Price / availability label, type: string }
+      - { name: featured, label: Feature on home page, type: boolean }
+      - { name: available, label: Currently offered, type: boolean }
+      - { name: customizable, label: Customizable, type: boolean }
+      - { name: sortOrder, label: Sort order, type: number }
+      - name: body
+        label: Product details
+        type: rich-text
+        options: { format: markdown, switcher: true }
