@@ -1,59 +1,68 @@
 ---
-import '../styles/global.css';
-import { url } from '../lib/url';
+import "../styles/global.css"
+import site from "../data/site.json"
+import { url } from "../lib/url"
 
 interface Props {
-  title?: string;
-  description?: string;
+  title?: string
+  description?: string
 }
 
-const { title, description = 'A personal woodworking shop log: projects, blog posts, tools, and supplies.' } = Astro.props;
-const pageTitle = title ? `${title} · Sweat & Sawdust` : 'Sweat & Sawdust';
+const { title, description = site.tagline } = Astro.props
+const pageTitle = title ? title + " · " + site.title : site.title
+const socialImage = Astro.site
+  ? new URL("/images/brand/MT_Wood_Fiber_clean.jpg", Astro.site).toString()
+  : url("/images/brand/MT_Wood_Fiber_clean.jpg")
 
 const nav = [
-  { href: '/', label: 'Home' },
-  { href: '/blog', label: 'Blog' },
-  { href: '/projects', label: 'Projects' },
-  { href: '/tools', label: 'Tools' },
-  { href: '/supplies', label: 'Supplies' },
-  { href: '/about', label: 'About' },
-];
+  { href: "/", label: "Home" },
+  { href: "/products", label: "Products" },
+  { href: "/about", label: "About" },
+]
 
-const basePrefix = import.meta.env.BASE_URL.replace(/\/$/, '');
-const path =
+const basePrefix = import.meta.env.BASE_URL.replace(/\/$/, "")
+const currentPath =
   (Astro.url.pathname.startsWith(basePrefix)
     ? Astro.url.pathname.slice(basePrefix.length)
     : Astro.url.pathname
-  ).replace(/\/$/, '') || '/';
-const isActive = (href: string) =>
-  href === '/' ? path === '/' : path === href || path.startsWith(href + '/');
----
+  ).replace(/\/$/, "") || "/"
 
+const isActive = (href: string) =>
+  href === "/" ? currentPath === "/" : currentPath === href || currentPath.startsWith(href + "/")
+---
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
+    <meta name="theme-color" content="#2e2623" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={socialImage} />
+    <meta property="og:site_name" content={site.title} />
     <title>{pageTitle}</title>
+    <link rel="icon" href={url("/images/brand/mt_wood_and_fiber.svg")} type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Bevan&family=IBM+Plex+Mono:wght@400;500&family=Public+Sans:ital,wght@0,400;0,700;1,400&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@500;600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
   </head>
   <body>
-    <header class="masthead">
-      <div class="masthead-inner">
-        <a class="wordmark" href={url('/')}>
-          Sweat <span class="amp">&amp;</span> Sawdust
+    <header class="site-header">
+      <div class="site-header__inner">
+        <a class="brand-link" href={url("/")} aria-label={site.title + " home"}>
+          <span class="brand-mark" aria-hidden="true">MT</span>
+          <span>{site.shortTitle}</span>
         </a>
-        <nav aria-label="Main">
+        <nav aria-label="Main navigation">
           <ul>
             {nav.map((item) => (
               <li>
-                <a href={url(item.href)} aria-current={isActive(item.href) ? 'page' : undefined}>
+                <a href={url(item.href)} aria-current={isActive(item.href) ? "page" : undefined}>
                   {item.label}
                 </a>
               </li>
@@ -61,117 +70,16 @@ const isActive = (href: string) =>
           </ul>
         </nav>
       </div>
-      <div class="kerf-edge" aria-hidden="true"></div>
     </header>
-
-    <main>
-      <slot />
-    </main>
-
-    <footer>
-      <div class="footer-inner">
-        <span>Sweat &amp; Sawdust — a shop log.</span>
-        <span class="mono">measure twice / cut once</span>
+    <main><slot /></main>
+    <footer class="site-footer">
+      <div class="site-footer__inner">
+        <div>
+          <strong>{site.title}</strong>
+          <p>{site.tagline}</p>
+        </div>
+        <span class="footer-note">Made by hand. Made to be used.</span>
       </div>
     </footer>
   </body>
 </html>
-
-<style>
-  .masthead {
-    background: var(--walnut);
-    color: var(--paper);
-  }
-
-  .masthead-inner {
-    max-width: var(--site-width);
-    margin: 0 auto;
-    padding: 1.4rem 1.25rem 1.1rem;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: 0.75rem 2.5rem;
-  }
-
-  .wordmark {
-    font-family: var(--font-display);
-    font-size: clamp(1.4rem, 3.5vw, 2rem);
-    color: var(--paper);
-    text-decoration: none;
-    letter-spacing: 0.01em;
-  }
-
-  .wordmark .amp {
-    color: var(--brass);
-  }
-
-  nav ul {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1.25rem;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-
-  nav a {
-    font-family: var(--font-mono);
-    font-size: 0.78rem;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: var(--paper);
-    text-decoration: none;
-    padding-bottom: 0.2rem;
-    border-bottom: 2px solid transparent;
-  }
-
-  nav a:hover {
-    color: #fff;
-    border-bottom-color: var(--brass);
-  }
-
-  nav a[aria-current='page'] {
-    border-bottom-color: var(--dykem);
-    color: #fff;
-  }
-
-  /* sawtooth bottom edge of the masthead */
-  .kerf-edge {
-    height: 8px;
-    background: var(--walnut);
-    clip-path: polygon(
-      0 0, 100% 0, 100% 20%,
-      0 20%
-    );
-    background-image: repeating-linear-gradient(
-      135deg,
-      var(--brass) 0 1px,
-      transparent 1px 14px
-    );
-  }
-
-  footer {
-    background: var(--walnut);
-    color: var(--paper);
-    margin-top: auto;
-  }
-
-  .footer-inner {
-    max-width: var(--site-width);
-    margin: 0 auto;
-    padding: 1.25rem;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 0.5rem;
-    font-size: 0.85rem;
-  }
-
-  .footer-inner .mono {
-    font-family: var(--font-mono);
-    font-size: 0.72rem;
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    color: var(--brass);
-  }
-</style>

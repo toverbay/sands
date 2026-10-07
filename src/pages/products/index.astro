@@ -1,0 +1,20 @@
+---
+import { getCollection } from "astro:content"
+import BaseLayout from "../../layouts/BaseLayout.astro"
+import ProductCard from "../../components/ProductCard.astro"
+
+const products = (await getCollection("products"))
+  .filter((product) => product.data.available)
+  .sort((a, b) => a.data.sortOrder - b.data.sortOrder)
+const wood = products.filter((p) => p.data.category === "wood")
+const fiber = products.filter((p) => p.data.category === "fiber")
+---
+<BaseLayout title="Products">
+  <section class="page-hero">
+    <p class="eyebrow">What we make</p>
+    <h1>Products from both sides of the workshop.</h1>
+    <p>Because we work in small batches and often to order, colors, woods, fabrics, dimensions, and customization options can vary.</p>
+  </section>
+  <section class="product-section"><p class="eyebrow">Tim's bench</p><h2>Wood</h2><div class="product-grid">{wood.map((p) => <ProductCard product={p} />)}</div></section>
+  <section class="product-section"><p class="eyebrow">Melody's table</p><h2>Fiber</h2><div class="product-grid">{fiber.map((p) => <ProductCard product={p} />)}</div></section>
+</BaseLayout>
