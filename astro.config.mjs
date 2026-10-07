@@ -8,7 +8,8 @@ export default defineConfig({
   // If you later move to a custom domain or Cloudflare Pages, set `site` to
   // that URL and remove (or empty) `base`.
   //site: 'https://toverbay.github.io',
-  site: 'https://stitchandgrain.online',
+  //site: 'https://stitchandgrain.online',
+  site: 'https://mtwoodandfiber.com',
   // base: '/sands',
   integrations: [vue()],
 });
