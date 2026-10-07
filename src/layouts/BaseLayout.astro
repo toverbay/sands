@@ -10,11 +10,25 @@ interface Props {
 
 const { title, description = site.tagline } = Astro.props
 const pageTitle = title ? title + " · " + site.title : site.title
+const socialImage = Astro.site
+  ? new URL("/images/brand/MT_Wood_Fiber_clean.jpg", Astro.site).toString()
+  : url("/images/brand/MT_Wood_Fiber_clean.jpg")
+
 const nav = [
   { href: "/", label: "Home" },
   { href: "/products", label: "Products" },
-  { href: "/about", label: "About" }
+  { href: "/about", label: "About" },
 ]
+
+const basePrefix = import.meta.env.BASE_URL.replace(/\/$/, "")
+const currentPath =
+  (Astro.url.pathname.startsWith(basePrefix)
+    ? Astro.url.pathname.slice(basePrefix.length)
+    : Astro.url.pathname
+  ).replace(/\/$/, "") || "/"
+
+const isActive = (href: string) =>
+  href === "/" ? currentPath === "/" : currentPath === href || currentPath.startsWith(href + "/")
 ---
 <!doctype html>
 <html lang="en">
@@ -23,28 +37,48 @@ const nav = [
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <meta name="theme-color" content="#2e2623" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={socialImage} />
+    <meta property="og:site_name" content={site.title} />
     <title>{pageTitle}</title>
+    <link rel="icon" href={url("/images/brand/mt_wood_and_fiber.svg")} type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@500;600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@500;600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
     <header class="site-header">
       <div class="site-header__inner">
-        <a class="brand-link" href={url("/")}>
-          <span class="brand-mark">MT</span>
+        <a class="brand-link" href={url("/")} aria-label={site.title + " home"}>
+          <span class="brand-mark" aria-hidden="true">MT</span>
           <span>{site.shortTitle}</span>
         </a>
         <nav aria-label="Main navigation">
-          <ul>{nav.map((item) => <li><a href={url(item.href)}>{item.label}</a></li>)}</ul>
+          <ul>
+            {nav.map((item) => (
+              <li>
+                <a href={url(item.href)} aria-current={isActive(item.href) ? "page" : undefined}>
+                  {item.label}
+                </a>
+              </li>
+            ))}
+          </ul>
         </nav>
       </div>
     </header>
     <main><slot /></main>
     <footer class="site-footer">
       <div class="site-footer__inner">
-        <div><strong>{site.title}</strong><p>{site.tagline}</p></div>
-        <span>Made by hand. Made to be used.</span>
+        <div>
+          <strong>{site.title}</strong>
+          <p>{site.tagline}</p>
+        </div>
+        <span class="footer-note">Made by hand. Made to be used.</span>
       </div>
     </footer>
   </body>

@@ -10,11 +10,12 @@ const products = defineCollection({
     summary: z.string(),
     priceLabel: z.string().optional().nullable(),
     image: z.string().optional().nullable(),
+    gallery: z.array(z.string()).default([]),
     featured: z.boolean().default(false),
     available: z.boolean().default(true),
     customizable: z.boolean().default(false),
-    sortOrder: z.number().int().default(0)
-  })
+    sortOrder: z.number().int().default(0),
+  }),
 })
 
 export const collections = { products }

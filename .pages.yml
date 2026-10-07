@@ -12,13 +12,20 @@ content:
     type: collection
     path: src/content/products
     format: yaml-frontmatter
-    filename: "{primary}.md"
+    filename:
+      template: "{primary}.md"
+      field: create
     view:
       primary: title
       fields: [title, category, maker, available, featured]
-      sort: [sortOrder, title]
+      sort: sortOrder
+      order: asc
+      search: [title, summary, category, maker]
     fields:
-      - { name: title, label: Product name, type: string, required: true }
+      - name: title
+        label: Product name
+        type: string
+        required: true
       - name: category
         label: Category
         type: select
@@ -30,14 +37,71 @@ content:
       - name: maker
         label: Maker
         type: select
-        options: { values: [Tim, Melody, Both] }
-      - { name: summary, label: Short description, type: text, required: true }
-      - { name: priceLabel, label: Price / availability label, type: string }
+        required: true
+        options:
+          values: [Tim, Melody, Both]
+      - name: summary
+        label: Short description
+        type: text
+        required: true
+        options:
+          maxlength: 280
+      - name: priceLabel
+        label: Price / availability label
+        type: string
+        description: Examples: "$45", "Starting at $60", or "Made to order"
+      - name: image
+        label: Featured image
+        type: image
+        options:
+          media: product_images
+          rename: safe
+      - name: gallery
+        label: Gallery
+        type: image
+        options:
+          media: product_images
+          multiple:
+            max: 8
+          unique: true
+          rename: safe
       - { name: featured, label: Feature on home page, type: boolean }
       - { name: available, label: Currently offered, type: boolean }
       - { name: customizable, label: Customizable, type: boolean }
-      - { name: sortOrder, label: Sort order, type: number }
+      - name: sortOrder
+        label: Sort order
+        type: number
+        options:
+          min: 0
       - name: body
         label: Product details
         type: rich-text
-        options: { format: markdown, switcher: true }
+        options:
+          media: product_images
+          format: markdown
+          switcher: true
+
+  - name: site_settings
+    label: Site copy
+    type: file
+    path: src/data/site.json
+    format: json
+    operations:
+      delete: false
+    fields:
+      - { name: title, label: Business name, type: string, required: true }
+      - { name: shortTitle, label: Short business name, type: string, required: true }
+      - { name: tagline, label: Tagline, type: string, required: true }
+      - { name: heroText, label: Home page introduction, type: text, required: true }
+      - { name: aboutIntro, label: About introduction, type: text, required: true }
+      - { name: aboutDetails, label: About details, type: text, required: true }
+      - { name: customization, label: Customization message, type: text, required: true }
+
+settings:
+  commit:
+    identity: user
+    templates:
+      create: "content: add {filename}"
+      update: "content: update {filename}"
+      delete: "content: remove {filename}"
+      rename: "content: rename {oldFilename} to {newFilename}"
