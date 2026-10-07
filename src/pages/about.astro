@@ -1,22 +1,16 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import BaseLayout from "../layouts/BaseLayout.astro"
+import site from "../data/site.json"
 ---
-
-<BaseLayout title="About" description="About Sweat & Sawdust, a personal woodworking shop log.">
-  <p class="eyebrow">The shop</p>
-  <h1>About</h1>
-  <div class="prose">
-    <p>
-      Sweat &amp; Sawdust is a personal woodworking log: blog posts about
-      builds in progress, project pages that collect notes and lessons
-      learned, and a running inventory of the tools and supplies that make
-      it all possible.
-    </p>
-    <p>
-      The whole site is a static snapshot of a Git repository. Content is
-      written in Markdown, edited offline, and published with a push. No
-      database, no CMS — the repository <em>is</em> the database.
-    </p>
-    <p>Measure twice, cut once.</p>
-  </div>
+<BaseLayout title="About">
+  <section class="page-hero">
+    <p class="eyebrow">Our workshop</p>
+    <h1>Two makers, one workshop.</h1>
+    <p>{site.aboutIntro}</p>
+  </section>
+  <section class="about-grid">
+    <article><p class="eyebrow">Tim · Wood</p><h2>Built at the bench</h2><p>Tim handles the woodworking side of the shop: practical pieces, giftable objects, and custom work where the grain and finish are part of the design.</p></article>
+    <article><p class="eyebrow">Melody · Fiber</p><h2>Sewn & crocheted</h2><p>Melody works with fabric and yarn, making sewn and crocheted goods designed for everyday use, comfort, and gifting.</p></article>
+  </section>
+  <section class="story-panel"><div><p class="eyebrow">MT Wood & Fiber</p><h2>Why the name?</h2></div><div><p>{site.aboutDetails}</p><p>{site.customization}</p></div></section>
 </BaseLayout>
