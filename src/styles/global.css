@@ -86,7 +86,7 @@ p { margin: 0 0 1rem; }
 .site-header__inner {
   width: min(100%, var(--site-width));
   margin: 0 auto;
-  padding: 0.9rem 1.25rem;
+  padding: 0.7rem 1.25rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
