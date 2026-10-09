@@ -90,7 +90,7 @@ const engravingVideo = url("/videos/clapper/clapper_laser_engraving.mp4")
 
       <div class="process-list">
         <section class="process-step">
-          <figure class="process-step__media">
+          <figure class="process-step__media process-step__media--layout">
             <img
               src={processImages.layout}
               alt="Paper clapper template beside a traced clapper outline on hardwood"
@@ -257,6 +257,17 @@ const engravingVideo = url("/videos/clapper/clapper_laser_engraving.mp4")
 </BaseLayout>
 
 <style>
+  .process-step__media--layout {
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.85);
+  }
+
+  .process-step__media--layout img {
+    aspect-ratio: auto;
+    object-fit: contain;
+    max-height: 30rem;
+  }
+
   .clapper-page {
     padding-bottom: 2rem;
   }
