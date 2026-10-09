@@ -1,0 +1,534 @@
+---
+import { getEntry } from "astro:content"
+import BaseLayout from "../../layouts/BaseLayout.astro"
+import { url } from "../../lib/url"
+
+const product = await getEntry("products", "tailors-quilters-clapper")
+
+if (!product) {
+  throw new Error("Clapper product entry not found")
+}
+
+const { title, maker, summary, priceLabel, customizable } = product.data
+
+const processImages = {
+  layout: url("/images/products/clapper/layout.webp"),
+  bandsaw: url("/images/products/clapper/bandsaw.webp"),
+  blank: url("/images/products/clapper/shaped-blank.webp"),
+  quality: url("/images/products/clapper/quality-control.webp"),
+}
+
+const engravingVideo = url("/videos/clapper/clapper_laser_engraving.mp4")
+---
+
+<BaseLayout
+  title={title}
+  description="Handmade hardwood tailor's and quilter's clappers, made one at a time and available with custom engraving, milling, epoxy, and inlay work."
+>
+  <article class="clapper-page">
+    <header class="clapper-hero">
+      <div class="clapper-hero__copy">
+        <p class="eyebrow">Wood · by {maker}</p>
+        <h1>{title}</h1>
+        <p class="clapper-hero__lede">
+          {summary} Simple in principle, surprisingly effective in practice,
+          and made one at a time from solid hardwood.
+        </p>
+
+        <div class="clapper-hero__facts">
+          {priceLabel && <span>{priceLabel}</span>}
+          <span>Beech · Ash · Oak · Maple</span>
+          {customizable && <span>Customizable</span>}
+        </div>
+      </div>
+
+      <aside class="clapper-intro" aria-label="What a clapper does">
+        <p class="eyebrow">What does it do?</p>
+        <p>
+          After fabric is pressed with heat and steam, the clapper is placed
+          firmly over the seam or crease while it cools. The hardwood holds
+          pressure and helps trap heat and moisture long enough for the fibers
+          to set flatter and crisper.
+        </p>
+      </aside>
+    </header>
+
+    <section class="clapper-section clapper-history">
+      <div class="clapper-section__heading">
+        <p class="eyebrow">A traditional pressing tool</p>
+        <h2>From tailor shops to quilt rooms</h2>
+      </div>
+      <div class="clapper-history__body">
+        <p>
+          The exact origin of the tailor's clapper is difficult to pin to a
+          single inventor or date, but wooden pressing blocks have long been
+          part of traditional garment making and tailoring. Pressing is a major
+          part of shaping a garment, and the clapper gives a tailor a simple
+          way to keep pressure on a freshly pressed collar, cuff, lapel, hem, or
+          seam while the fabric cools.
+        </p>
+        <p>
+          Quilters found that the same idea works beautifully for patchwork.
+          A clapper can help flatten seams pressed open or to one side, tame
+          bulky intersections, and give blocks a flatter surface before they
+          are joined together. Today the tool is at home beside both a tailor's
+          iron and a quilter's pressing station.
+        </p>
+      </div>
+    </section>
+
+    <section class="clapper-section process-section">
+      <div class="clapper-section__heading">
+        <p class="eyebrow">Made in our workshop</p>
+        <h2>From rough lumber to finished clapper</h2>
+        <p>
+          There is not much machinery hidden inside a clapper. The difference
+          is in the stock selection, the shaping, and a lot of hands-on
+          finishing.
+        </p>
+      </div>
+
+      <div class="process-list">
+        <section class="process-step">
+          <figure class="process-step__media">
+            <img
+              src={processImages.layout}
+              alt="Paper clapper template beside a traced clapper outline on hardwood"
+              loading="lazy"
+              onerror="this.closest('.process-step')?.classList.add('process-step--no-media'); this.closest('figure')?.remove()"
+            />
+          </figure>
+          <div class="process-step__copy">
+            <span class="process-step__number">01</span>
+            <p class="eyebrow">Select & lay out</p>
+            <h3>Start with the right piece of wood.</h3>
+            <p>
+              Each clapper starts with a hand-selected piece of 1-3/4&quot;
+              Beech, Ash, Oak, or Maple. The shape is laid out on the stock
+              using a template, with the grain and the finished form in mind.
+            </p>
+          </div>
+        </section>
+
+        <section class="process-step process-step--reverse">
+          <figure class="process-step__media">
+            <img
+              src={processImages.bandsaw}
+              alt="Cutting a clapper blank to shape on the bandsaw"
+              loading="lazy"
+              onerror="this.closest('.process-step')?.classList.add('process-step--no-media'); this.closest('figure')?.remove()"
+            />
+          </figure>
+          <div class="process-step__copy">
+            <span class="process-step__number">02</span>
+            <p class="eyebrow">Cut the blank</p>
+            <h3>Follow the line at the bandsaw.</h3>
+            <p>
+              The blank is cut out on the bandsaw, staying just outside the
+              layout line. At this stage it is recognizably a clapper, but it
+              is still very much a rough woodworking blank.
+            </p>
+          </div>
+        </section>
+
+        <section class="process-step">
+          <figure class="process-step__media">
+            <img
+              src={processImages.blank}
+              alt="Rough-shaped hardwood clapper blank on the workbench"
+              loading="lazy"
+              onerror="this.closest('.process-step')?.classList.add('process-step--no-media'); this.closest('figure')?.remove()"
+            />
+          </figure>
+          <div class="process-step__copy">
+            <span class="process-step__number">03</span>
+            <p class="eyebrow">Shape & route</p>
+            <h3>Turn the blank into something comfortable to hold.</h3>
+            <p>
+              The bandsawn edges are rough-sanded to the final shape. Then the
+              edges are rounded over and the finger grooves are routed into the
+              sides so the clapper is easy to pick up and comfortable in the
+              hand.
+            </p>
+          </div>
+        </section>
+
+        <section class="process-step process-step--text">
+          <div class="process-step__copy">
+            <span class="process-step__number">04</span>
+            <p class="eyebrow">Sand. And sand. And sand.</p>
+            <h3>The simple-looking part that takes a while.</h3>
+            <p>
+              From there it is sanding — and sanding, and sanding — through the
+              grits until the surfaces are smooth, the routed edges feel right,
+              and there is nothing sharp or awkward where your hand naturally
+              grips the tool.
+            </p>
+          </div>
+        </section>
+
+        <section class="process-step process-step--video">
+          <div
+            class="process-video"
+            onerror="this.closest('.process-step')?.classList.add('process-step--no-media'); this.remove()"
+          >
+            <video controls playsinline preload="metadata">
+              <source
+                src={engravingVideo}
+                type="video/mp4"
+                onerror="this.closest('.process-video')?.remove()"
+              />
+              Your browser does not support embedded video.
+            </video>
+          </div>
+          <div class="process-step__copy">
+            <span class="process-step__number">05</span>
+            <p class="eyebrow">Make it yours</p>
+            <h3>Customization comes last.</h3>
+            <p>
+              A finished clapper can be personalized with laser engraving,
+              milling, epoxy, inlays, or a combination of techniques. The
+              customization is planned around the wood and the piece rather
+              than treated as an afterthought.
+            </p>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <section class="clapper-section how-to">
+      <div class="clapper-section__heading">
+        <p class="eyebrow">Using a clapper</p>
+        <h2>Heat. Press. Hold. Cool.</h2>
+      </div>
+      <ol class="how-to__steps">
+        <li>
+          <span>1</span>
+          <div>
+            <strong>Press the seam.</strong>
+            <p>Use your iron and steam as appropriate for the fabric.</p>
+          </div>
+        </li>
+        <li>
+          <span>2</span>
+          <div>
+            <strong>Remove the iron.</strong>
+            <p>Move directly from the iron to the clapper while the area is still hot.</p>
+          </div>
+        </li>
+        <li>
+          <span>3</span>
+          <div>
+            <strong>Set the clapper in place.</strong>
+            <p>Apply firm, even pressure over the seam, crease, or bulky intersection.</p>
+          </div>
+        </li>
+        <li>
+          <span>4</span>
+          <div>
+            <strong>Let it cool.</strong>
+            <p>Hold it there for a few seconds, then lift and continue with your project.</p>
+          </div>
+        </li>
+      </ol>
+    </section>
+
+    <section class="quality-section">
+      <figure class="quality-section__media">
+        <img
+          src={processImages.quality}
+          alt="Three finished hardwood clappers on a table with a black cat supervising"
+          loading="lazy"
+          onerror="this.closest('.quality-section')?.classList.add('quality-section--no-media'); this.closest('figure')?.remove()"
+        />
+        <figcaption>Quality control has signed off.</figcaption>
+      </figure>
+      <div class="quality-section__copy">
+        <p class="eyebrow">Final inspection</p>
+        <h2>Ready for the sewing room.</h2>
+        <p>
+          By the time a clapper leaves the workshop, the woodworking should
+          disappear into the experience of using it: solid, smooth, comfortable
+          in the hand, and ready to do one simple job very well.
+        </p>
+      </div>
+    </section>
+  </article>
+</BaseLayout>
+
+<style>
+  .clapper-page {
+    padding-bottom: 2rem;
+  }
+
+  .clapper-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(18rem, 0.8fr);
+    gap: clamp(2rem, 7vw, 6rem);
+    align-items: end;
+    padding: clamp(4rem, 9vw, 8rem) 0 clamp(3rem, 7vw, 6rem);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .clapper-hero__copy h1 {
+    max-width: 11ch;
+  }
+
+  .clapper-hero__lede {
+    max-width: 46rem;
+    color: var(--charcoal);
+    font-size: clamp(1.08rem, 2vw, 1.3rem);
+  }
+
+  .clapper-hero__facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+    margin-top: 1.5rem;
+  }
+
+  .clapper-hero__facts span {
+    padding: 0.4rem 0.7rem;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.55);
+    font-size: 0.82rem;
+    font-weight: 700;
+  }
+
+  .clapper-intro {
+    padding: clamp(1.5rem, 4vw, 2.4rem);
+    border-radius: var(--radius);
+    background:
+      repeating-radial-gradient(
+        ellipse at 20% 20%,
+        transparent 0 30px,
+        rgba(214, 189, 162, 0.13) 31px 33px
+      ),
+      var(--ink);
+    color: var(--paper);
+  }
+
+  .clapper-intro .eyebrow {
+    color: var(--tan);
+  }
+
+  .clapper-intro p:last-child {
+    margin-bottom: 0;
+    color: color-mix(in srgb, var(--paper) 92%, transparent);
+  }
+
+  .clapper-section {
+    padding: clamp(4rem, 9vw, 7rem) 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .clapper-section__heading {
+    max-width: 49rem;
+    margin-bottom: clamp(2rem, 5vw, 4rem);
+  }
+
+  .clapper-section__heading > p:not(.eyebrow) {
+    color: var(--muted);
+    font-size: 1.05rem;
+  }
+
+  .clapper-history {
+    display: grid;
+    grid-template-columns: minmax(0, 0.75fr) minmax(0, 1.25fr);
+    gap: clamp(2rem, 7vw, 7rem);
+  }
+
+  .clapper-history .clapper-section__heading {
+    margin-bottom: 0;
+  }
+
+  .clapper-history__body {
+    max-width: 46rem;
+    color: var(--charcoal);
+    font-size: 1.05rem;
+  }
+
+  .process-list {
+    display: grid;
+    gap: clamp(3rem, 8vw, 6.5rem);
+  }
+
+  .process-step {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(18rem, 0.95fr);
+    gap: clamp(2rem, 6vw, 5rem);
+    align-items: center;
+  }
+
+  .process-step--reverse .process-step__media {
+    order: 2;
+  }
+
+  .process-step--reverse .process-step__copy {
+    order: 1;
+  }
+
+  .process-step--text,
+  .process-step--no-media {
+    grid-template-columns: 1fr;
+  }
+
+  .process-step--text .process-step__copy {
+    max-width: 46rem;
+    margin-left: auto;
+    margin-right: auto;
+    padding: clamp(2rem, 5vw, 4rem);
+    border-radius: var(--radius);
+    background: var(--paper);
+    border: 1px solid var(--line);
+  }
+
+  .process-step__media,
+  .process-video {
+    margin: 0;
+    overflow: hidden;
+    border-radius: var(--radius);
+    background: var(--paper);
+    box-shadow: var(--shadow);
+  }
+
+  .process-step__media img,
+  .process-video video {
+    width: 100%;
+    display: block;
+  }
+
+  .process-step__media img {
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+  }
+
+  .process-step:nth-child(2) .process-step__media img {
+    aspect-ratio: 16 / 9;
+  }
+
+  .process-step__copy {
+    max-width: 38rem;
+  }
+
+  .process-step__copy h3 {
+    font-size: clamp(1.65rem, 3vw, 2.5rem);
+    margin-bottom: 1rem;
+  }
+
+  .process-step__copy > p:last-child {
+    color: var(--muted);
+  }
+
+  .process-step__number {
+    display: inline-block;
+    margin-bottom: 1.6rem;
+    color: var(--copper);
+    font-family: var(--font-display);
+    font-size: 0.9rem;
+    font-weight: 700;
+  }
+
+  .how-to__steps {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .how-to__steps li {
+    padding: 1.3rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: rgba(255, 255, 255, 0.48);
+  }
+
+  .how-to__steps li > span {
+    display: grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    margin-bottom: 2rem;
+    border-radius: 50%;
+    background: var(--ink);
+    color: var(--cream);
+    font-family: var(--font-display);
+    font-size: 0.8rem;
+    font-weight: 700;
+  }
+
+  .how-to__steps strong {
+    font-family: var(--font-display);
+    font-size: 1.08rem;
+  }
+
+  .how-to__steps p {
+    margin: 0.5rem 0 0;
+    color: var(--muted);
+    font-size: 0.93rem;
+  }
+
+  .quality-section {
+    margin-top: clamp(4rem, 9vw, 7rem);
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(18rem, 0.85fr);
+    gap: clamp(2rem, 6vw, 5rem);
+    align-items: center;
+  }
+
+  .quality-section--no-media {
+    grid-template-columns: 1fr;
+  }
+
+  .quality-section__media {
+    margin: 0;
+  }
+
+  .quality-section__media img {
+    width: 100%;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+  }
+
+  .quality-section__media figcaption {
+    margin-top: 0.7rem;
+    color: var(--muted);
+    font-size: 0.9rem;
+    font-style: italic;
+  }
+
+  .quality-section__copy {
+    max-width: 34rem;
+  }
+
+  .quality-section__copy p:last-child {
+    color: var(--muted);
+  }
+
+  @media (max-width: 900px) {
+    .clapper-hero,
+    .clapper-history,
+    .process-step,
+    .quality-section {
+      grid-template-columns: 1fr;
+    }
+
+    .process-step--reverse .process-step__media,
+    .process-step--reverse .process-step__copy {
+      order: initial;
+    }
+
+    .how-to__steps {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 560px) {
+    .how-to__steps {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
