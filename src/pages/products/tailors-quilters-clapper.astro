@@ -40,6 +40,15 @@ const engravingVideo = url("/videos/clapper/clapper_laser_engraving.mp4")
           <span>Beech · Ash · Oak · Maple</span>
           {customizable && <span>Customizable</span>}
         </div>
+
+        <div class="clapper-hero__actions">
+          <a
+            class="button button--primary"
+            href={url("/contact") + "?product=" + encodeURIComponent(title)}
+          >
+            Request a custom clapper
+          </a>
+        </div>
       </div>
 
       <aside class="clapper-intro" aria-label="What a clapper does">
@@ -284,6 +293,10 @@ const engravingVideo = url("/videos/clapper/clapper_laser_engraving.mp4")
     display: flex;
     flex-wrap: wrap;
     gap: 0.55rem;
+    margin-top: 1.5rem;
+  }
+
+  .clapper-hero__actions {
     margin-top: 1.5rem;
   }
 
