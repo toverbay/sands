@@ -96,6 +96,8 @@ content:
       - { name: aboutIntro, label: About introduction, type: text, required: true }
       - { name: aboutDetails, label: About details, type: text, required: true }
       - { name: customization, label: Customization message, type: text, required: true }
+      - { name: email, label: Contact email, type: string, required: true }
+      - { name: phone, label: Contact phone, type: string, required: true }
 
 settings:
   commit:

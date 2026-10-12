@@ -40,6 +40,15 @@ const engravingVideo = url("/videos/clapper/clapper_laser_engraving.mp4")
           <span>Beech · Ash · Oak · Maple</span>
           {customizable && <span>Customizable</span>}
         </div>
+
+        <div class="clapper-hero__actions">
+          <a
+            class="button button--primary"
+            href={url("/contact") + "?product=" + encodeURIComponent(title)}
+          >
+            Request a custom clapper
+          </a>
+        </div>
       </div>
 
       <aside class="clapper-intro" aria-label="What a clapper does">
@@ -257,6 +266,7 @@ const engravingVideo = url("/videos/clapper/clapper_laser_engraving.mp4")
 </BaseLayout>
 
 <style>
+<<<<<<< HEAD
   .process-step__media--layout {
     padding: 1rem;
     background: rgba(255, 255, 255, 0.85);
@@ -269,6 +279,8 @@ const engravingVideo = url("/videos/clapper/clapper_laser_engraving.mp4")
     object-fit: contain;
   }
 
+=======
+>>>>>>> 860393caa8aac77d762f44841d21954b9a38d4c6
   .clapper-page {
     padding-bottom: 2rem;
   }
@@ -296,6 +308,10 @@ const engravingVideo = url("/videos/clapper/clapper_laser_engraving.mp4")
     display: flex;
     flex-wrap: wrap;
     gap: 0.55rem;
+    margin-top: 1.5rem;
+  }
+
+  .clapper-hero__actions {
     margin-top: 1.5rem;
   }
 
@@ -414,6 +430,18 @@ const engravingVideo = url("/videos/clapper/clapper_laser_engraving.mp4")
   .process-step__media img {
     aspect-ratio: 4 / 3;
     object-fit: cover;
+  }
+
+  .process-step__media--layout {
+    padding: 0;
+    background: var(--paper);
+  }
+
+  .process-step__media.process-step__media--layout img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: auto;
+    object-fit: contain;
   }
 
   .process-step:nth-child(2) .process-step__media img {

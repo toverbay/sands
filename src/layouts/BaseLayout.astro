@@ -18,6 +18,7 @@ const nav = [
   { href: "/", label: "Home" },
   { href: "/products", label: "Products" },
   { href: "/about", label: "About" },
+  { href: "/contact", label: "Custom Orders" },
 ]
 
 const basePrefix = import.meta.env.BASE_URL.replace(/\/$/, "")
@@ -77,6 +78,11 @@ const isActive = (href: string) =>
         <div>
           <strong>{site.title}</strong>
           <p>{site.tagline}</p>
+          <p class="footer-contact">
+            <a href={"mailto:" + site.email}>{site.email}</a>
+            <span aria-hidden="true"> · </span>
+            <a href="tel:+17029636207">{site.phone}</a>
+          </p>
         </div>
         <span class="footer-note">Made by hand. Made to be used.</span>
       </div>

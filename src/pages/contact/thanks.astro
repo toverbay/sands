@@ -1,0 +1,35 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro"
+import { url } from "../../lib/url"
+---
+
+<BaseLayout
+  title="Thank You"
+  description="Thanks for contacting MT Wood & Fiber Workshop."
+>
+  <section class="thanks-page">
+    <p class="eyebrow">Message sent</p>
+    <h1>Thanks for getting in touch.</h1>
+    <p>
+      Your request is on its way to our workshop inbox. We will review the
+      details and get back to you to work through options, timing, and pricing.
+    </p>
+    <div class="button-row">
+      <a class="button button--primary" href={url("/products")}>Browse products</a>
+      <a class="button button--ghost" href={url("/")}>Back home</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .thanks-page {
+    max-width: 48rem;
+    padding: clamp(5rem, 12vw, 10rem) 0;
+  }
+
+  .thanks-page p:not(.eyebrow) {
+    max-width: 42rem;
+    color: var(--muted);
+    font-size: 1.12rem;
+  }
+</style>
