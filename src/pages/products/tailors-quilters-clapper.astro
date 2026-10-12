@@ -241,7 +241,7 @@ const engravingVideo = url("/videos/clapper/clapper_laser_engraving.mp4")
           loading="lazy"
           onerror="this.closest('.quality-section')?.classList.add('quality-section--no-media'); this.closest('figure')?.remove()"
         />
-        <figcaption>Quality control has signed off.</figcaption>
+        <figcaption>Each piece is carefully inspected by our expert quality control staff.</figcaption>
       </figure>
       <div class="quality-section__copy">
         <p class="eyebrow">Final inspection</p>
@@ -262,10 +262,11 @@ const engravingVideo = url("/videos/clapper/clapper_laser_engraving.mp4")
     background: rgba(255, 255, 255, 0.85);
   }
 
-  .process-step__media--layout img {
+  .process-step__media.process-step__media--layout img {
+    width: 100%;
+    height: auto;
     aspect-ratio: auto;
     object-fit: contain;
-    max-height: 30rem;
   }
 
   .clapper-page {
