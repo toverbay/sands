@@ -312,6 +312,15 @@ nav a:hover, nav a[aria-current="page"] {
   height: 100%;
   object-fit: cover;
 }
+
+.product-card__image--show-full {
+  background: var(--paper);
+}
+
+.product-card__image--show-full img {
+  object-fit: contain;
+  object-position: center;
+}
 .product-placeholder {
   width: 100%;
   height: 100%;

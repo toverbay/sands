@@ -10,7 +10,7 @@ const { product } = Astro.props
 const { title, category, maker, summary, priceLabel, image, customizable } = product.data
 ---
 <article class="product-card">
-  <a class="product-card__image" href={url("/products/" + product.id)} aria-label={"View " + title}>
+  <a class:list={["product-card__image", product.id === "tailors-quilters-clapper" && "product-card__image--show-full"]} href={url("/products/" + product.id)} aria-label={"View " + title}>
     {image ? (
       <img src={url(image)} alt={title} loading="lazy" />
     ) : (
