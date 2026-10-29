@@ -254,6 +254,40 @@ nav a:hover, nav a[aria-current="page"] {
   font-weight: 700;
 }
 .craft-panel p { max-width: 33rem; margin-bottom: 0; opacity: 0.86; }
+.craft-panel--wood-image {
+  position: relative;
+  overflow: hidden;
+  padding: 0;
+  background: var(--ink);
+}
+
+.craft-panel__image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.craft-panel__overlay {
+  position: relative;
+  z-index: 1;
+  min-height: 21rem;
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  background: linear-gradient(
+    to top,
+    rgba(46, 38, 35, 0.82) 0%,
+    rgba(46, 38, 35, 0.45) 45%,
+    rgba(46, 38, 35, 0.12) 100%
+  );
+}
+
+.craft-panel--wood-image::before {
+  display: none;
+}
 
 .product-grid {
   display: grid;

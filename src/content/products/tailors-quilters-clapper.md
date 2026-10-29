@@ -8,6 +8,7 @@ featured: true
 available: true
 customizable: true
 sortOrder: 10
+image: /images/products/clapper-three-sizes.webp
 ---
 A clapper is a simple tool that earns its place beside the iron. After a seam is pressed with heat and steam, the clapper is placed over the area while it cools, helping the fibers settle into a flatter, sharper crease.
 

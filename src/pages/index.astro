@@ -42,13 +42,21 @@ const featured = (await getCollection("products"))
       </p>
     </div>
     <div class="craft-grid">
-      <article class="craft-panel craft-panel--wood">
-        <span class="craft-panel__number">01</span>
-        <h3>Woodworking</h3>
-        <p>
-          Clappers, boxes, and small woodcraft made with attention to material,
-          joinery, finish, and the details that make each piece its own.
-        </p>
+      <article class="craft-panel craft-panel--wood craft-panel--wood-image">
+        <img
+          class="craft-panel__image"
+          src={url("/images/products/clapper/three-sizes.png")}
+          alt="Three sizes of tailor's and quilter's clappers"
+          loading="lazy"
+        />
+        <div class="craft-panel__overlay">
+          <span class="craft-panel__number">01</span>
+          <h3>Woodworking</h3>
+          <p>
+            Clappers, boxes, and small woodcraft made with attention to material,
+            joinery, finish, and the details that make each piece its own.
+          </p>
+        </div>
       </article>
       <article class="craft-panel craft-panel--fiber">
         <span class="craft-panel__number">02</span>
